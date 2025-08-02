@@ -1,0 +1,111 @@
+/* style.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #eef3f7, #ffffff);
+  font-family: 'Poppins', sans-serif;
+}
+
+.main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  width: 90%;
+  max-width: 600px;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  resize: none;
+  transition: 0.3s;
+}
+
+input:focus, textarea:focus {
+  border-color: #5b9df9;
+  outline: none;
+  box-shadow: 0 0 5px rgba(91, 157, 249, 0.3);
+}
+
+button {
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+  margin-top: 5px;
+}
+
+button:hover {
+  background-color: #005fd1;
+}
+
+.comment {
+  background: #f1f5fb;
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.comment strong {
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.no-comment {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+@media (max-width: 500px) {
+  .container {
+    margin: 20px;
+    padding: 20px;
+  }
+}
+
+.delete-btn {
+  margin-top: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}

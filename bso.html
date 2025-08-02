@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Big Events dan BSO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom font style for heading similar to the screenshot */
+    .custom-heading {
+      font-family: 'Georgia', serif;
+      font-weight: 900;
+      font-size: 2.25rem; /* 36px */
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    /* The golden horizontal line */
+    .gold-line {
+      border-bottom: 3px solid #c49a2a;
+      width: 14rem; /* same width as text roughly */
+      margin-top: 0.25rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Card shadow and border radius */
+    .card-shadow {
+      box-shadow: 0 8px 16px rgb(0 0 0 / 0.05);
+      border-radius: 0.75rem; /* rounded-lg */
+      background-color: white;
+    }
+
+    /* Button style similar to screenshot */
+    .btn-outline {
+      border: 1px solid #000;
+      padding: 0.4rem 1rem;
+      border-radius: 0.375rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      background-color: transparent;
+      transition: background-color 0.3s, color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      background-color: #000;
+      color: #fff;
+    }
+
+    /* Arrow icon with subtle stroke for button */
+    .btn-arrow {
+      stroke-width: 2;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Text styles in card */
+    .card-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+    .card-desc {
+      font-size: 0.75rem;
+      color: #333;
+      line-height: 1.3;
+      margin-bottom: 1.2rem;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* For consistent spacing from top */
+    body {
+      background-color: #f8fafc;
+    }
+
+  </style>
+</head>
+<body class="max-w-7xl mx-auto px-6 py-10 select-none">
+  <header>
+    <h1 class="custom-heading">BIG EVENTS DAN BSO</h1>
+    <div class="gold-line"></div>
+  </header>
+
+  <main>
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- INSPECTRA Card -->
+      <article class="card-shadow p-8 flex flex-col items-center text-center">
+        <img 
+          src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/06929794-dcf2-4f9a-8d67-2b88e965e4aa.png" 
+          alt="Logo INSPECTRA dengan desain warna ungu, hijau dan pink dengan bentuk melingkar abstrak" 
+          class="mb-6 max-h-40 w-auto object-contain" 
+          onerror="this.onerror=null;this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d3621856-8557-4942-bf31-cd2794bd82c6.png';"
+        />
+        <h2 class="card-title w-full text-left">INSPECTRA</h2>
+        <p class="card-desc w-full">
+          INSPECTRA atau Industrial Spectrum yang sebelumnya dikenal sebagai Industrial Workshop, merupakan acara tahunan yang diselenggarakan oleh Himpunan Mahasiswa Teknik Industri UGM dengan membawakan tema terkait isu-isu teraktual di dunia industri yang berbeda di setiap tahunnya.
+        </p>
+        <button class="btn-outline" aria-label="Baca Selengkapnya tentang INSPECTRA">
+          Baca Selengkapnya
+          <svg class="btn-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </article>
+
+      <!-- CHRONICS Card -->
+      <article class="card-shadow p-8 flex flex-col items-center text-center">
+        <img 
+          src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5ec16bd8-ec56-40e0-a79b-100e2c534e5e.png" 
+          alt="Logo CHRONICS berbentuk bulatan jam dengan warna biru tua, emas, dan putih dengan elemen jam pasir" 
+          class="mb-6 max-h-40 w-auto object-contain" 
+          onerror="this.onerror=null;this.src='https://placehold.co/200x200?text=Logo+Tidak+Tersedia';"
+        />
+        <h2 class="card-title w-full text-left">CHRONICS</h2>
+        <p class="card-desc w-full">
+          Chronics merupakan acara kompetisi tahunan berskala internasional yang mengangkat tema seputar isu-isu terkait ergonomi dan produk desain yang diadakan oleh Himpunan Mahasiswa Teknik Industri UGM. Hampir setiap tahunnya, Chronics berhasil melibatkan peserta mahasiswa dari Asia Tenggara.
+        </p>
+        <button class="btn-outline" aria-label="Baca Selengkapnya tentang CHRONICS">
+          Baca Selengkapnya
+          <svg class="btn-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </article>
+
+      <!-- IEC Card -->
+      <article class="card-shadow p-8 flex flex-col items-center text-center">
+        <img 
+          src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a3429c4b-81dc-44b4-a8ac-e6a6153c83b9.png" 
+          alt="Logo IEC Industrial Engineering Student Catalyst dengan warna hijau, biru dan hitam membentuk panah abstrak" 
+          class="mb-6 max-h-40 w-auto object-contain" 
+          onerror="this.onerror=null;this.src='https://placehold.co/200x200?text=Logo+Tidak+Tersedia';"
+        />
+        <h2 class="card-title w-full text-left">IEC</h2>
+        <p class="card-desc w-full">
+          IEC (Industrial Engineering Catalyst) merupakan sebuah Badan Semi Otonom (BSO) yang memiliki tujuan untuk mewadahi minat mahasiswa Teknik Industri untuk berkembang dan berprestasi melalui serangkaian kegiatan berupa diskusi, sharing, mentoring, dan konsultasi.
+        </p>
+        <button class="btn-outline" aria-label="Baca Selengkapnya tentang IEC">
+          Baca Selengkapnya
+          <svg class="btn-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+

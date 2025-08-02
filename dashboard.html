@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - HIMAMIA FMIPA UNNES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .sidebar-link.active { background-color: #3b82f6; color: white; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <aside class="w-64 bg-gray-800 text-white flex flex-col">
+            <div class="flex items-center justify-center p-4 border-b border-gray-700">
+                <img src="image/Logo Himamia.png" alt="Logo HIMAMIA" class="h-10 w-10 rounded-full mr-3">
+                <span class="text-lg font-bold">Admin HIMAMIA</span>
+            </div>
+            <nav class="flex-1 px-2 py-4 space-y-2">
+                <a href="#dashboard" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition active">
+                    <i class="fas fa-tachometer-alt w-6"></i><span>Dashboard</span>
+                </a>
+                <a href="#berita" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-newspaper w-6"></i><span>Kelola Berita</span>
+                </a>
+                <a href="#agenda" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-calendar-alt w-6"></i><span>Kelola Agenda</span>
+                </a>
+                 <a href="#dokumen" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-file-download w-6"></i><span>Kelola Unduhan</span>
+                </a>
+                <a href="#komentar" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-comments w-6"></i><span>Kelola Komentar</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-6 md:p-8 overflow-y-auto">
+            <section id="dashboard" class="content-section active">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard Utama</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-newspaper text-3xl text-blue-500 mr-4"></i><div><p class="text-gray-500">Total Berita</p><p id="total-berita" class="text-2xl font-bold">0</p></div></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-calendar-check text-3xl text-green-500 mr-4"></i><div><p class="text-gray-500">Total Agenda</p><p id="total-agenda" class="text-2xl font-bold">0</p></div></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-comments text-3xl text-purple-500 mr-4"></i><div><p class="text-gray-500">Total Komentar</p><p id="total-comments" class="text-2xl font-bold">0</p></div></div>
+                </div>
+            </section>
+
+            <section id="berita" class="content-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Berita 📰</h1>
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-xl font-semibold mb-4" id="berita-form-title">Tambah Berita Baru</h2>
+                    <form id="berita-form" class="space-y-4">
+                        <input type="hidden" id="berita-id">
+                        <input type="text" id="berita-judul" placeholder="Judul Berita" class="w-full p-2 border rounded-md" required>
+                        <input type="text" id="berita-gambar" placeholder="URL Gambar Sampul" class="w-full p-2 border rounded-md" required>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <input type="text" id="berita-penulis" placeholder="Nama Penulis / Sumber" class="w-full p-2 border rounded-md" required>
+    <input type="text" id="berita-kategori" placeholder="Kategori (e.g., Prestasi, Akademik)" class="w-full p-2 border rounded-md" required>
+</div>
+<textarea id="berita-deskripsi" rows="3" placeholder="Deskripsi Singkat (untuk tampil di halaman utama)..." class="w-full p-2 border rounded-md" required></textarea>
+                        <textarea id="berita-konten" rows="5" placeholder="Isi konten berita..." class="w-full p-2 border rounded-md" required></textarea>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Simpan Berita</button>
+                        <button type="button" id="berita-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
+                    </form>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Berita</h2><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-2">Judul</th><th class="p-2">Tanggal</th><th class="p-2">Aksi</th></tr></thead><tbody id="berita-list"></tbody></table></div></div>
+            </section>
+
+            <section id="agenda" class="content-section">
+                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Agenda 🗓️</h1>
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-xl font-semibold mb-4" id="agenda-form-title">Tambah Agenda Baru</h2>
+                    <form id="agenda-form" class="space-y-4">
+                        <input type="hidden" id="agenda-id">
+                        <input type="text" id="agenda-nama" placeholder="Nama Kegiatan" class="w-full p-2 border rounded-md" required>
+                        <input type="text" id="agenda-tanggal" placeholder="Keterangan Tanggal (e.g., 27 Agustus 2025 / Saat Ini)" class="w-full p-2 border rounded-md" required>
+                        <input type="text" id="agenda-gambar" placeholder="URL Gambar" class="w-full p-2 border rounded-md" required>
+                        <input type="text" id="agenda-kategori" placeholder="Kategori (e.g., KOMPETISI)" class="w-full p-2 border rounded-md" required>
+                        <textarea id="agenda-deskripsi" rows="3" placeholder="Deskripsi singkat..." class="w-full p-2 border rounded-md" required></textarea>
+                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Simpan Agenda</button>
+                        <button type="button" id="agenda-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
+                    </form>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Agenda</h2><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-2">Nama</th><th class="p-2">Tanggal</th><th class="p-2">Aksi</th></tr></thead><tbody id="agenda-list"></tbody></table></div></div>
+            </section>
+            
+            <section id="dokumen" class="content-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Unduhan 📁</h1>
+                 <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-xl font-semibold mb-4" id="dokumen-form-title">Tambah Dokumen</h2>
+                    <form id="dokumen-form" class="space-y-4">
+                        <input type="hidden" id="dokumen-id">
+                        <input type="text" id="dokumen-nama" placeholder="Nama Dokumen" class="w-full p-2 border rounded-md" required>
+                        <input type="text" id="dokumen-url" placeholder="URL File (e.g., Google Drive Link)" class="w-full p-2 border rounded-md" required>
+                        <textarea id="dokumen-deskripsi" rows="2" placeholder="Deskripsi singkat..." class="w-full p-2 border rounded-md" required></textarea>
+                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">Simpan Dokumen</button>
+                        <button type="button" id="dokumen-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
+                    </form>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Dokumen</h2><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-2">Nama Dokumen</th><th class="p-2">Aksi</th></tr></thead><tbody id="dokumen-list"></tbody></table></div></div>
+            </section>
+
+            <section id="komentar" class="content-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Komentar 💬</h1>
+                 <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Semua Komentar</h2><div id="admin-comment-list" class="space-y-4"></div></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7HgJq8XIusYjM-p6ly-WwkAE4jQJ6CxI",
+            authDomain: "himamiaweb25.firebaseapp.com",
+            projectId: "himamiaweb25",
+            storageBucket: "himamiaweb25.appspot.com",
+            messagingSenderId: "221670280017",
+            appId: "1:221670280017:web:308066165b701cb13e6170"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+        // --- Navigation Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            const defaultSection = window.location.hash ? window.location.hash : '#dashboard';
+            
+            const navigate = (hash) => {
+                const targetId = hash.substring(1);
+                sidebarLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === hash));
+                contentSections.forEach(s => s.classList.toggle('active', s.id === targetId));
+                window.location.hash = hash;
+            };
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigate(link.getAttribute('href'));
+                });
+            });
+
+            navigate(defaultSection);
+            
+            // Load all data
+            loadAllData();
+        });
+        
+        // --- Universal Data Loader ---
+        function loadAllData() {
+            // Berita
+            handleCRUD('berita', {
+                formId: 'berita-form',
+                idField: 'berita-id',
+                titleField: 'berita-form-title',
+                cancelBtn: 'berita-cancel',
+                listContainer: 'berita-list',
+                totalContainer: 'total-berita',
+                fields: ['judul', 'gambar', 'konten'],
+               render: (doc) => `
+        <tr class="border-b hover:bg-gray-50">
+            <td class="p-2">${doc.data().judul}</td>
+            <td class="p-2 bg-gray-50 text-sm">${doc.data().kategori || 'N/A'}</td>
+            <td class="p-2 space-x-2">
+                <a href="berita-detail.html?id=${doc.id}" target="_blank" class="text-green-500 hover:underline">Lihat</a>
+                <button onclick="editDoc('berita', '${doc.id}')" class="text-blue-500 hover:underline">Edit</button>
+                <button onclick="deleteDoc('berita', '${doc.id}')" class="text-red-500 hover:underline">Hapus</button>
+            </td>
+        </tr>`
+            });
+
+            // Agenda
+            handleCRUD('agenda', {
+                formId: 'agenda-form',
+                idField: 'agenda-id',
+                titleField: 'agenda-form-title',
+                cancelBtn: 'agenda-cancel',
+                listContainer: 'agenda-list',
+                totalContainer: 'total-agenda',
+                fields: ['nama', 'tanggal', 'gambar', 'kategori', 'deskripsi'],
+                 render: (doc) => `
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-2">${doc.data().nama}</td>
+                        <td class="p-2">${doc.data().tanggal}</td>
+                        <td class="p-2 space-x-2">
+                            <button onclick="editDoc('agenda', '${doc.id}')" class="text-blue-500 hover:underline">Edit</button>
+                            <button onclick="deleteDoc('agenda', '${doc.id}')" class="text-red-500 hover:underline">Hapus</button>
+                        </td>
+                    </tr>`
+            });
+
+            // Dokumen
+            handleCRUD('dokumen', {
+                formId: 'dokumen-form',
+                idField: 'dokumen-id',
+                titleField: 'dokumen-form-title',
+                cancelBtn: 'dokumen-cancel',
+                listContainer: 'dokumen-list',
+                fields: ['nama', 'url', 'deskripsi'],
+                render: (doc) => `
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-2">${doc.data().nama}</td>
+                        <td class="p-2 space-x-2">
+                            <button onclick="editDoc('dokumen', '${doc.id}')" class="text-blue-500 hover:underline">Edit</button>
+                            <button onclick="deleteDoc('dokumen', '${doc.id}')" class="text-red-500 hover:underline">Hapus</button>
+                        </td>
+                    </tr>`
+            });
+            
+            // Komentar
+            db.collection('comments').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+                const list = document.getElementById('admin-comment-list');
+                const total = document.getElementById('total-comments');
+                list.innerHTML = '';
+                total.textContent = snapshot.size;
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    list.innerHTML += `<div class="border rounded-lg p-4 bg-gray-50 flex justify-between items-start"><div><p class="font-bold">${data.name}</p><p class="text-gray-700">${data.comment}</p><p class="text-xs text-gray-400 mt-2">${data.timestamp?.toDate().toLocaleString('id-ID')}</p></div><button onclick="deleteDoc('comments', '${doc.id}')" class="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600">Hapus</button></div>`;
+                });
+            });
+        }
+
+        // --- Generic CRUD Handler ---
+        function handleCRUD(collectionName, config) {
+            const form = document.getElementById(config.formId);
+            const listContainer = document.getElementById(config.listContainer);
+            const totalContainer = document.getElementById(config.totalContainer);
+            
+            // Listen for data changes
+            db.collection(collectionName).orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+                listContainer.innerHTML = '';
+                if(totalContainer) totalContainer.textContent = snapshot.size;
+                snapshot.forEach(doc => {
+                    listContainer.innerHTML += config.render(doc);
+                });
+            });
+
+            // Handle form submission (Add/Update)
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = document.getElementById(config.idField).value;
+                const data = { createdAt: timestamp };
+                config.fields.forEach(field => {
+                    data[field] = document.getElementById(`${collectionName}-${field}`).value;
+                });
+
+                if (id) { // Update
+                    db.collection(collectionName).doc(id).update(data).then(() => resetForm(collectionName, config));
+                } else { // Add
+                    db.collection(collectionName).add(data).then(() => resetForm(collectionName, config));
+                }
+            });
+
+            // Handle cancel button
+            document.getElementById(config.cancelBtn)?.addEventListener('click', () => resetForm(collectionName, config));
+        }
+
+        function resetForm(collectionName, config) {
+            document.getElementById(config.formId).reset();
+            document.getElementById(config.idField).value = '';
+            document.getElementById(config.titleField).textContent = `Tambah ${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)} Baru`;
+            document.getElementById(config.cancelBtn).classList.add('hidden');
+        }
+        
+        // --- Generic Edit/Delete Functions ---
+        window.editDoc = (collectionName, id) => {
+            db.collection(collectionName).doc(id).get().then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const config = getConfigForCollection(collectionName);
+                    document.getElementById(config.idField).value = id;
+                    config.fields.forEach(field => {
+                        document.getElementById(`${collectionName}-${field}`).value = data[field];
+                    });
+                    document.getElementById(config.titleField).textContent = 'Edit Data';
+                    document.getElementById(config.cancelBtn).classList.remove('hidden');
+                    window.location.hash = `#${collectionName}`; // Switch to the correct tab
+                    navigate(window.location.hash);
+                }
+            });
+        }
+
+        window.deleteDoc = (collectionName, id) => {
+            if (confirm(`Yakin ingin menghapus item ini dari ${collectionName}?`)) {
+                db.collection(collectionName).doc(id).delete();
+            }
+        }
+        
+     // --- BARU: Modifikasi getConfigForCollection ---
+      function getConfigForCollection(name) {
+    const configs = {
+        berita: { 
+            idField: 'berita-id', 
+            titleField: 'berita-form-title', 
+            cancelBtn: 'berita-cancel', 
+            // TAMBAHKAN 'penulis' DAN 'kategori' DI SINI
+            fields: ['judul', 'gambar', 'penulis', 'kategori', 'deskripsi', 'kontenLengkap'] 
+        },
+        // ... (konfigurasi agenda dan dokumen tetap sama)
+    };
+    return configs[name];
+}
+
+        const navigate = (hash) => {
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.getAttribute('href') === hash));
+            document.querySelectorAll('.content-section').forEach(s => s.classList.toggle('active', s.id === hash.substring(1)));
+        };
+
+    </script>
+</body>
+</html>

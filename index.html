@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIMAMIA - Himpunan Mahasiswa Kimia FMIPA UNNES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+        .hero { background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url('image/background.jpg') center/cover no-repeat; } /* Ganti dengan URL background Anda */
+        .card-hover:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .event-card { transition: all 0.3s ease; }
+        .gradient-text { background: linear-gradient(90deg, #3b82f6, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .custom-heading { font-family: 'Georgia', serif; font-weight: 900; font-size: 2.25rem; letter-spacing: -0.02em; text-transform: uppercase; }
+        .gold-line { border-bottom: 3px solid #1826be; width: 14rem; margin-top: 0.25rem; margin-bottom: 2rem; }
+        .card-shadow { box-shadow: 0 8px 16px rgb(0 0 0 / 0.05); border-radius: 0.75rem; background-color: white; }
+        .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem; }
+        .card-desc { font-size: 0.75rem; color: #333; line-height: 1.3; margin-bottom: 1.2rem; font-family: 'Arial', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="fixed w-full bg-white shadow-md z-50">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between h-16 items-center"><div class="flex items-center"><img src="image/Logo Himamia.png" alt="Logo HIMAMIA" class="h-10 w-10 rounded-full"><span class="ml-3 text-xl font-bold text-blue-600">HIMAMIA FMIPA UNNES</span></div><div class="hidden md:flex space-x-8 items-center" id="nav-links"><a href="#home" class="nav-link text-blue-600 font-semibold hover:text-blue-800 transition">Beranda</a><a href="#tentang" class="nav-link text-gray-700 hover:text-blue-600 transition">Tentang</a><a href="#agenda" class="nav-link text-gray-700 hover:text-blue-600 transition">Agenda</a><a href="#berita" class="nav-link text-gray-700 hover:text-blue-600 transition">Berita</a><a href="#unduhan" class="nav-link text-gray-700 hover:text-blue-600 transition">Unduhan</a></div><div class="md:hidden"><button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none"><svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M4 6h16M4 12h16M4 18h16" /></svg><svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M6 18L18 6M6 6l12 12" /></svg></button></div></div><div id="mobile-menu" class="hidden md:hidden flex-col space-y-2 mt-4 transition-all duration-300 ease-in-out pb-4"><a href="#home" class="nav-link block text-gray-700 hover:text-blue-600 px-2 py-1">Beranda</a><a href="#tentang" class="nav-link block text-gray-700 hover:text-blue-600 px-2 py-1">Tentang</a><a href="#agenda" class="nav-link block text-gray-700 hover:text-blue-600 px-2 py-1">Agenda</a><a href="#berita" class="nav-link block text-gray-700 hover:text-blue-600 px-2 py-1">Berita</a><a href="#unduhan" class="nav-link block text-gray-700 hover:text-blue-600 px-2 py-1">Unduhan</a></div></nav>
+    </header>
+
+    <section id="home" class="hero text-white pt-24 pb-20"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="md:flex items-center"><div class="md:w-1/2 mb-10 md:mb-0"><h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Himpunan Mahasiswa <span class="gradient-text">Kimia</span></h1><p class="text-xl mb-8 opacity-90">Mewadahi, Menginspirasi, dan Meningkatkan Potensi Mahasiswa Kimia menuju Generasi Unggul dan Berkarakter</p><div class="flex space-x-4"><a href="#tentang" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 transform hover:scale-105">Tentang Kami</a><a href="#agenda" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-medium transition duration-300 hover:bg-white hover:text-blue-600">Agenda Terbaru</a></div></div><div class="md:w-1/2 flex justify-center"><img src="image/Logo Himamia.png" alt="Logo" class="rounded-xl shadow-2xl border-4 border-white w-64 h-64 object-contain"></div></div></div></section>
+
+    <section id="tentang" class="py-16 bg-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center mb-16"><h2 class="text-3xl font-bold text-gray-900 mb-4">Selayang Pandang Himamia FMIPA UNNES</h2><div class="w-20 h-1 bg-blue-600 mx-auto"></div></div><div class="grid md:grid-cols-2 gap-12 items-center mb-16"><div><h3 class="text-2xl font-semibold text-gray-800 mb-4">Sejarah Singkat</h3><p class="text-gray-700 mb-4">Himamia FMIPA UNNES adalah lembaga eksekutif mahasiswa tingkat rumpun ilmu di lingkungan FMIPA UNNES yang memiliki visi untuk mewujudkan Himamia FMIPA UNNES yang memiliki peran aktif sebagai agent of change serta sebagai wadah internalisasi bagi Mahasiswa Rumpun Ilmu Kimia dengan berorientasi pada Himamia yang kolaboratif, inovatif, dan adaptif.</p></div><div><img src="image/sejarahsingkatfoto.JPG" alt="Foto dokumentasi sejarah" class="rounded-xl shadow-lg w-full"></div></div></div></section>
+
+    <section id="agenda" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16"><h2 class="text-3xl font-bold text-gray-900 mb-4">Agenda & Kegiatan</h2><div class="w-20 h-1 bg-blue-600 mx-auto"></div></div>
+            <div id="agenda-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <p class="text-center col-span-full">Memuat agenda...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="berita" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16"><h2 class="text-3xl font-bold text-gray-900 mb-4">Berita & Informasi</h2><div class="w-20 h-1 bg-blue-600 mx-auto"></div></div>
+            <div id="berita-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <p class="text-center col-span-full">Memuat berita...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="unduhan" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16"><h2 class="text-3xl font-bold text-gray-900 mb-4">Pusat Unduhan</h2><div class="w-20 h-1 bg-blue-600 mx-auto"></div></div>
+            <div id="unduhan-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <p class="text-center col-span-full">Memuat dokumen...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="feedback" class="py-16 bg-white"><div class="max-w-3xl mx-auto px-4"><div class="text-center mb-8"><h2 class="text-3xl font-bold text-gray-900">Feedback Website</h2><p class="text-gray-600 mt-2">Beri kami masukan untuk pengembangan website yang lebih baik.</p></div><div class="bg-white p-8 rounded-lg shadow-lg"><input type="text" id="name" placeholder="Nama Anda..." class="w-full p-3 border rounded mb-4"><textarea id="comment" rows="4" placeholder="Tulis komentar Anda..." class="w-full p-3 border rounded mb-4"></textarea><button onclick="submitComment()" class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700">Kirim Komentar</button><div id="commentList" class="mt-8 space-y-4"></div></div></div></section>
+
+    <script>
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7HgJq8XIusYjM-p6ly-WwkAE4jQJ6CxI",
+            authDomain: "himamiaweb25.firebaseapp.com",
+            projectId: "himamiaweb25",
+            storageBucket: "himamiaweb25.appspot.com",
+            messagingSenderId: "221670280017",
+            appId: "1:221670280017:web:308066165b701cb13e6170"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // --- Dynamic Content Loaders ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAgenda();
+            loadBerita();
+            loadUnduhan();
+            loadComments();
+            setupNav();
+        });
+
+        function loadAgenda() {
+            const container = document.getElementById('agenda-container');
+            db.collection('agenda').orderBy('createdAt', 'desc').limit(3).get().then(snapshot => {
+                if(snapshot.empty) { container.innerHTML = '<p class="text-center col-span-full">Belum ada agenda.</p>'; return; }
+                container.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    container.innerHTML += `
+                        <div class="bg-white rounded-xl overflow-hidden shadow-md event-card card-hover">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="${data.gambar}" alt="${data.nama}" class="w-full h-full object-cover">
+                                <div class="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">${data.kategori.toUpperCase()}</div>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center text-sm text-gray-500 mb-2">
+                                    <i class="far fa-calendar mr-2"></i><span>${data.tanggal}</span>
+                                </div>
+                                <h4 class="font-bold text-xl text-gray-800 mb-2">${data.nama}</h4>
+                                <p class="text-gray-600 mb-4 h-20 overflow-hidden">${data.deskripsi}</p>
+                            </div>
+                        </div>`;
+                });
+            });
+        }
+
+     function loadBerita() {
+    const container = document.getElementById('berita-container');
+    db.collection('berita').orderBy('createdAt', 'desc').limit(3).get().then(snapshot => {
+        if(snapshot.empty) { container.innerHTML = '<p class="text-center col-span-full">Belum ada berita.</p>'; return; }
+        container.innerHTML = '';
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const id = doc.id;
+            // BARU: Setiap kartu sekarang adalah link <a>
+            container.innerHTML += `
+                <a href="berita-detail.html?id=${id}" class="block bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <img src="${data.gambar}" alt="${data.judul}" class="h-48 w-full object-cover">
+                    <div class="p-6">
+                        <div class="uppercase tracking-wide text-sm text-blue-600 font-semibold mb-1">Berita</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 h-14 overflow-hidden">${data.judul}</h3>
+<p class="mt-2 text-gray-600 text-sm h-24 overflow-hidden">${data.deskripsi || ''}</p>
+                        </div>
+                </a>`;
+        });
+    });
+}
+        
+        function loadUnduhan() {
+            const container = document.getElementById('unduhan-container');
+            db.collection('dokumen').orderBy('createdAt', 'desc').limit(3).get().then(snapshot => {
+                if(snapshot.empty) { container.innerHTML = '<p class="text-center col-span-full">Belum ada dokumen untuk diunduh.</p>'; return; }
+                container.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    container.innerHTML += `
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4"><i class="fas fa-file-alt text-blue-600 text-xl"></i></div>
+                            <div>
+                                <h3 class="font-semibold text-lg text-gray-800 mb-1">${data.nama}</h3>
+                                <p class="text-gray-600 text-sm mb-3">${data.deskripsi}</p>
+                                <a href="${data.url}" target="_blank" class="mt-3 inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                    Unduh di sini <i class="fas fa-download ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+            });
+        }
+        
+        // --- Comments and Nav Logic (from original file) ---
+        function submitComment(){const name=document.getElementById('name').value.trim();const comment=document.getElementById('comment').value.trim();if(!name||!comment){alert('Nama dan komentar wajib diisi!');return}db.collection('comments').add({name:name,comment:comment,timestamp:new Date()}).then(()=>{document.getElementById('name').value='';document.getElementById('comment').value='';loadComments()})}
+        function loadComments(){db.collection('comments').orderBy('timestamp','desc').limit(5).get().then(snapshot=>{const list=document.getElementById('commentList');list.innerHTML='';if(snapshot.empty){list.innerHTML='<div class="text-center text-gray-500">Belum ada komentar.</div>'}else{snapshot.forEach(doc=>{const data=doc.data();list.innerHTML+=`<div class="border-t pt-4"><p><strong>${data.name}</strong></p><p class="text-gray-700">${data.comment}</p></div>`})}})}
+        function setupNav(){const links=document.querySelectorAll(".nav-link");const mobileBtn=document.getElementById("mobile-menu-button");const mobileMenu=document.getElementById("mobile-menu");const iconOpen=document.getElementById("icon-open");const iconClose=document.getElementById("icon-close");links.forEach(link=>{link.addEventListener("click",()=>{links.forEach(l=>{l.classList.remove("text-blue-600","font-semibold");l.classList.add("text-gray-700")});link.classList.add("text-blue-600","font-semibold");link.classList.remove("text-gray-700");if(window.innerWidth<768){mobileMenu.classList.add("hidden");iconOpen.classList.remove("hidden");iconClose.classList.add("hidden")}})});mobileBtn.addEventListener("click",()=>{mobileMenu.classList.toggle("hidden");iconOpen.classList.toggle("hidden");iconClose.classList.toggle("hidden")})}
+    </script>
+</body>
+</html>

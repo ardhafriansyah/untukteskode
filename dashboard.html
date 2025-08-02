@@ -18,8 +18,10 @@
     </style>
 </head>
 <body class="bg-gray-100">
-    <div class="flex h-screen">
-        <aside class="w-64 bg-gray-800 text-white flex flex-col">
+    <div class="relative min-h-screen md:flex">
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-20 hidden md:hidden"></div>
+        
+        <aside id="sidebar" class="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out z-30 flex flex-col">
             <div class="flex items-center justify-center p-4 border-b border-gray-700">
                 <img src="image/Logo Himamia.png" alt="Logo HIMAMIA" class="h-10 w-10 rounded-full mr-3">
                 <span class="text-lg font-bold">Admin HIMAMIA</span>
@@ -36,75 +38,84 @@
             </div>
         </aside>
 
-        <main class="flex-1 p-6 md:p-8 overflow-y-auto">
-            <section id="dashboard" class="content-section active">
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard Utama</h1>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-newspaper text-3xl text-blue-500 mr-4"></i><div><p class="text-gray-500">Total Berita</p><p id="total-berita" class="text-2xl font-bold">0</p></div></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-calendar-check text-3xl text-green-500 mr-4"></i><div><p class="text-gray-500">Total Agenda</p><p id="total-agenda" class="text-2xl font-bold">0</p></div></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-comments text-3xl text-purple-500 mr-4"></i><div><p class="text-gray-500">Total Komentar</p><p id="total-comments" class="text-2xl font-bold">0</p></div></div>
-                </div>
-            </section>
+        <main class="flex-1 overflow-y-auto">
+            <div class="md:hidden flex justify-between items-center bg-white p-4 shadow-md">
+                <span class="text-lg font-bold text-gray-800">Admin Panel</span>
+                <button id="menu-toggle" class="text-gray-800">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
 
-            <section id="berita" class="content-section">
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Berita 📰</h1>
-                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                    <h2 class="text-xl font-semibold mb-4" id="berita-form-title">Tambah Berita Baru</h2>
-                    <form id="berita-form" class="space-y-4">
-                        <input type="hidden" id="berita-id">
-                        <input type="text" id="berita-judul" placeholder="Judul Berita" class="w-full p-2 border rounded-md" required>
-                        <input type="text" id="berita-gambar" placeholder="URL Gambar Sampul" class="w-full p-2 border rounded-md" required>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" id="berita-penulis" placeholder="Nama Penulis / Sumber" class="w-full p-2 border rounded-md" required>
-                            <input type="text" id="berita-kategori" placeholder="Kategori (e.g., Prestasi, Akademik)" class="w-full p-2 border rounded-md" required>
-                        </div>
-                        <textarea id="berita-deskripsi" rows="3" placeholder="Deskripsi Singkat (untuk tampil di halaman utama)..." class="w-full p-2 border rounded-md" required></textarea>
-                        <textarea id="berita-kontenLengkap" rows="10" placeholder="Konten Lengkap Berita (mendukung tag HTML seperti <p> dan <strong>)..." class="w-full p-2 border rounded-md" required></textarea>
-                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Simpan Berita</button>
-                        <button type="button" id="berita-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
-                    </form>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Berita</h2><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-2">Judul</th><th class="p-2">Kategori</th><th class="p-2">Aksi</th></tr></thead><tbody id="berita-list"></tbody></table></div></div>
-            </section>
-            
-            <section id="agenda" class="content-section">
-                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Agenda 🗓️</h1>
-                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                    <h2 class="text-xl font-semibold mb-4" id="agenda-form-title">Tambah Agenda Baru</h2>
-                    <form id="agenda-form" class="space-y-4">
-                        <input type="hidden" id="agenda-id">
-                        <input type="text" id="agenda-nama" placeholder="Nama Kegiatan" class="w-full p-2 border rounded-md" required>
-                        <input type="text" id="agenda-tanggal" placeholder="Keterangan Tanggal (e.g., 27 Agustus 2025)" class="w-full p-2 border rounded-md" required>
-                        <input type="text" id="agenda-gambar" placeholder="URL Gambar" class="w-full p-2 border rounded-md" required>
-                        <input type="text" id="agenda-kategori" placeholder="Kategori (e.g., KOMPETISI)" class="w-full p-2 border rounded-md" required>
-                        <textarea id="agenda-deskripsi" rows="3" placeholder="Deskripsi singkat..." class="w-full p-2 border rounded-md" required></textarea>
-                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Simpan Agenda</button>
-                        <button type="button" id="agenda-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
-                    </form>
-                </div>
-                 <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Agenda</h2><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-2">Nama</th><th class="p-2">Tanggal</th><th class="p-2">Aksi</th></tr></thead><tbody id="agenda-list"></tbody></table></div></div>
-            </section>
-            
-            <section id="dokumen" class="content-section">
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Unduhan 📁</h1>
-                 <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                    <h2 class="text-xl font-semibold mb-4" id="dokumen-form-title">Tambah Dokumen</h2>
-                    <form id="dokumen-form" class="space-y-4">
-                        <input type="hidden" id="dokumen-id">
-                        <input type="text" id="dokumen-nama" placeholder="Nama Dokumen" class="w-full p-2 border rounded-md" required>
-                        <input type="text" id="dokumen-url" placeholder="URL File (e.g., Google Drive Link)" class="w-full p-2 border rounded-md" required>
-                        <textarea id="dokumen-deskripsi" rows="2" placeholder="Deskripsi singkat..." class="w-full p-2 border rounded-md" required></textarea>
-                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">Simpan Dokumen</button>
-                        <button type="button" id="dokumen-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
-                    </form>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Dokumen</h2><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-2">Nama Dokumen</th><th class="p-2">Aksi</th></tr></thead><tbody id="dokumen-list"></tbody></table></div></div>
-            </section>
+            <div class="p-6 md:p-8">
+                <section id="dashboard" class="content-section active">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard Utama</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-newspaper text-3xl text-blue-500 mr-4"></i><div><p class="text-gray-500">Total Berita</p><p id="total-berita" class="text-2xl font-bold">0</p></div></div>
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-calendar-check text-3xl text-green-500 mr-4"></i><div><p class="text-gray-500">Total Agenda</p><p id="total-agenda" class="text-2xl font-bold">0</p></div></div>
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-comments text-3xl text-purple-500 mr-4"></i><div><p class="text-gray-500">Total Komentar</p><p id="total-comments" class="text-2xl font-bold">0</p></div></div>
+                    </div>
+                </section>
 
-            <section id="komentar" class="content-section">
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Komentar 💬</h1>
-                 <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Semua Komentar</h2><div id="admin-comment-list" class="space-y-4"></div></div>
-            </section>
+                <section id="berita" class="content-section">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Berita 📰</h1>
+                    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                        <h2 class="text-xl font-semibold mb-4" id="berita-form-title">Tambah Berita Baru</h2>
+                        <form id="berita-form" class="space-y-4">
+                            <input type="hidden" id="berita-id">
+                            <input type="text" id="berita-judul" placeholder="Judul Berita" class="w-full p-2 border rounded-md" required>
+                            <input type="text" id="berita-gambar" placeholder="URL Gambar Sampul" class="w-full p-2 border rounded-md" required>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" id="berita-penulis" placeholder="Nama Penulis / Sumber" class="w-full p-2 border rounded-md" required>
+                                <input type="text" id="berita-kategori" placeholder="Kategori (e.g., Prestasi, Akademik)" class="w-full p-2 border rounded-md" required>
+                            </div>
+                            <textarea id="berita-deskripsi" rows="3" placeholder="Deskripsi Singkat (untuk tampil di halaman utama)..." class="w-full p-2 border rounded-md" required></textarea>
+                            <textarea id="berita-kontenLengkap" rows="10" placeholder="Konten Lengkap Berita (mendukung tag HTML seperti <p> dan <strong>)..." class="w-full p-2 border rounded-md" required></textarea>
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Simpan Berita</button>
+                            <button type="button" id="berita-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Berita</h2><div class="overflow-x-auto"><table class="w-full text-left min-w-[600px]"><thead><tr class="border-b"><th class="p-2">Judul</th><th class="p-2">Kategori</th><th class="p-2">Aksi</th></tr></thead><tbody id="berita-list"></tbody></table></div></div>
+                </section>
+                
+                <section id="agenda" class="content-section">
+                     <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Agenda 🗓️</h1>
+                    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                        <h2 class="text-xl font-semibold mb-4" id="agenda-form-title">Tambah Agenda Baru</h2>
+                        <form id="agenda-form" class="space-y-4">
+                            <input type="hidden" id="agenda-id">
+                            <input type="text" id="agenda-nama" placeholder="Nama Kegiatan" class="w-full p-2 border rounded-md" required>
+                            <input type="text" id="agenda-tanggal" placeholder="Keterangan Tanggal (e.g., 27 Agustus 2025)" class="w-full p-2 border rounded-md" required>
+                            <input type="text" id="agenda-gambar" placeholder="URL Gambar" class="w-full p-2 border rounded-md" required>
+                            <input type="text" id="agenda-kategori" placeholder="Kategori (e.g., KOMPETISI)" class="w-full p-2 border rounded-md" required>
+                            <textarea id="agenda-deskripsi" rows="3" placeholder="Deskripsi singkat..." class="w-full p-2 border rounded-md" required></textarea>
+                            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Simpan Agenda</button>
+                            <button type="button" id="agenda-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Agenda</h2><div class="overflow-x-auto"><table class="w-full text-left min-w-[500px]"><thead><tr class="border-b"><th class="p-2">Nama</th><th class="p-2">Tanggal</th><th class="p-2">Aksi</th></tr></thead><tbody id="agenda-list"></tbody></table></div></div>
+                </section>
+                
+                <section id="dokumen" class="content-section">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Unduhan 📁</h1>
+                    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                        <h2 class="text-xl font-semibold mb-4" id="dokumen-form-title">Tambah Dokumen</h2>
+                        <form id="dokumen-form" class="space-y-4">
+                            <input type="hidden" id="dokumen-id">
+                            <input type="text" id="dokumen-nama" placeholder="Nama Dokumen" class="w-full p-2 border rounded-md" required>
+                            <input type="text" id="dokumen-url" placeholder="URL File (e.g., Google Drive Link)" class="w-full p-2 border rounded-md" required>
+                            <textarea id="dokumen-deskripsi" rows="2" placeholder="Deskripsi singkat..." class="w-full p-2 border rounded-md" required></textarea>
+                            <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">Simpan Dokumen</button>
+                            <button type="button" id="dokumen-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Daftar Dokumen</h2><div class="overflow-x-auto"><table class="w-full text-left min-w-[400px]"><thead><tr class="border-b"><th class="p-2">Nama Dokumen</th><th class="p-2">Aksi</th></tr></thead><tbody id="dokumen-list"></tbody></table></div></div>
+                </section>
+
+                <section id="komentar" class="content-section">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Komentar 💬</h1>
+                    <div class="bg-white p-6 rounded-lg shadow-md"><h2 class="text-xl font-semibold mb-4">Semua Komentar</h2><div id="admin-comment-list" class="space-y-4"></div></div>
+                </section>
+            </div>
         </main>
     </div>
 
@@ -136,6 +147,30 @@
 
         // --- FUNGSI UTAMA DASHBOARD ---
         function initializeDashboard() {
+            // --- KONTROL SIDEBAR MOBILE ---
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            
+            const closeSidebar = () => {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('hidden');
+            };
+
+            const openSidebar = () => {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+            };
+
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openSidebar();
+            });
+
+            sidebarOverlay.addEventListener('click', closeSidebar);
+
+
+            // --- NAVIGASI ---
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
             const navigate = (hash) => {
@@ -143,7 +178,12 @@
                 sidebarLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === hash));
                 contentSections.forEach(s => s.classList.toggle('active', s.id === hash.substring(1)));
                 window.location.hash = hash;
+                // Tutup sidebar setelah navigasi di mobile
+                if (window.innerWidth < 768) {
+                    closeSidebar();
+                }
             };
+            
             sidebarLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -168,9 +208,9 @@
                 totalContainer: 'total-berita',
                 render: (doc) => `
                     <tr class="border-b hover:bg-gray-50">
-                        <td class="p-2">${doc.data().judul}</td>
+                        <td class="p-2 font-medium">${doc.data().judul}</td>
                         <td class="p-2 bg-gray-50 text-sm">${doc.data().kategori || 'N/A'}</td>
-                        <td class="p-2 space-x-2">
+                        <td class="p-2 space-x-2 whitespace-nowrap">
                             <a href="berita-detail.html?id=${doc.id}" target="_blank" class="text-green-500 hover:underline">Lihat</a>
                             <button onclick="editDoc('berita', '${doc.id}')" class="text-blue-500 hover:underline">Edit</button>
                             <button onclick="deleteDoc('berita', '${doc.id}')" class="text-red-500 hover:underline">Hapus</button>
@@ -183,9 +223,9 @@
                 totalContainer: 'total-agenda',
                 render: (doc) => `
                     <tr class="border-b hover:bg-gray-50">
-                        <td class="p-2">${doc.data().nama}</td>
+                        <td class="p-2 font-medium">${doc.data().nama}</td>
                         <td class="p-2">${doc.data().tanggal}</td>
-                        <td class="p-2 space-x-2">
+                        <td class="p-2 space-x-2 whitespace-nowrap">
                             <button onclick="editDoc('agenda', '${doc.id}')" class="text-blue-500 hover:underline">Edit</button>
                             <button onclick="deleteDoc('agenda', '${doc.id}')" class="text-red-500 hover:underline">Hapus</button>
                         </td>
@@ -196,8 +236,8 @@
                 listContainer: 'dokumen-list',
                 render: (doc) => `
                     <tr class="border-b hover:bg-gray-50">
-                        <td class="p-2">${doc.data().nama}</td>
-                        <td class="p-2 space-x-2">
+                        <td class="p-2 font-medium">${doc.data().nama}</td>
+                        <td class="p-2 space-x-2 whitespace-nowrap">
                             <button onclick="editDoc('dokumen', '${doc.id}')" class="text-blue-500 hover:underline">Edit</button>
                             <button onclick="deleteDoc('dokumen', '${doc.id}')" class="text-red-500 hover:underline">Hapus</button>
                         </td>
@@ -212,7 +252,7 @@
                 snapshot.forEach(doc => {
                     const data = doc.data();
                     const date = data.timestamp ? data.timestamp.toDate().toLocaleString('id-ID') : 'No date';
-                    list.innerHTML += `<div class="border rounded-lg p-4 bg-gray-50 flex justify-between items-start"><div><p class="font-bold">${data.name}</p><p class="text-gray-700">${data.comment}</p><p class="text-xs text-gray-400 mt-2">${date}</p></div><button onclick="deleteDoc('comments', '${doc.id}')" class="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600">Hapus</button></div>`;
+                    list.innerHTML += `<div class="border rounded-lg p-4 bg-gray-50 flex justify-between items-start flex-wrap gap-2"><div><p class="font-bold">${data.name}</p><p class="text-gray-700">${data.comment}</p><p class="text-xs text-gray-400 mt-2">${date}</p></div><button onclick="deleteDoc('comments', '${doc.id}')" class="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600 self-center">Hapus</button></div>`;
                 });
             });
         }
@@ -227,10 +267,10 @@
             const totalContainer = document.getElementById(config.totalContainer);
             
             db.collection(collectionName).orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-                listContainer.innerHTML = '';
+                if(listContainer) listContainer.innerHTML = '';
                 if(totalContainer) totalContainer.textContent = snapshot.size;
                 snapshot.forEach(doc => {
-                    listContainer.innerHTML += config.render(doc);
+                    if(listContainer) listContainer.innerHTML += config.render(doc);
                 });
             });
 
@@ -281,12 +321,14 @@
                     const data = doc.data();
                     document.getElementById(config.idField).value = id;
                     config.fields.forEach(field => {
-                        document.getElementById(`${collectionName}-${field}`).value = data[field] || '';
+                        const element = document.getElementById(`${collectionName}-${field}`);
+                        if(element) element.value = data[field] || '';
                     });
                     document.getElementById(config.titleField).textContent = 'Edit Data';
                     document.getElementById(config.cancelBtn).classList.remove('hidden');
                     const targetLink = document.querySelector(`.sidebar-link[href="#${collectionName}"]`);
                     if(targetLink) targetLink.click();
+                    window.scrollTo(0, 0); // Scroll ke atas untuk melihat form edit
                 }
             });
         }

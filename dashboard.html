@@ -28,6 +28,7 @@
             </div>
             <nav class="flex-1 px-2 py-4 space-y-2">
                 <a href="#dashboard" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition active"><i class="fas fa-tachometer-alt w-6"></i><span>Dashboard</span></a>
+                <a href="#pengumuman" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition"><i class="fas fa-bullhorn w-6"></i><span>Kelola Pengumuman</span></a>
                 <a href="#berita" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition"><i class="fas fa-newspaper w-6"></i><span>Kelola Berita</span></a>
                 <a href="#agenda" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition"><i class="fas fa-calendar-alt w-6"></i><span>Kelola Agenda</span></a>
                 <a href="#dokumen" class="sidebar-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition"><i class="fas fa-file-download w-6"></i><span>Kelola Unduhan</span></a>
@@ -49,10 +50,51 @@
             <div class="p-6 md:p-8">
                 <section id="dashboard" class="content-section active">
                     <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard Utama</h1>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-bullhorn text-3xl text-orange-500 mr-4"></i><div><p class="text-gray-500">Total Pengumuman</p><p id="total-pengumuman" class="text-2xl font-bold">0</p></div></div>
                         <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-newspaper text-3xl text-blue-500 mr-4"></i><div><p class="text-gray-500">Total Berita</p><p id="total-berita" class="text-2xl font-bold">0</p></div></div>
                         <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-calendar-check text-3xl text-green-500 mr-4"></i><div><p class="text-gray-500">Total Agenda</p><p id="total-agenda" class="text-2xl font-bold">0</p></div></div>
                         <div class="bg-white p-6 rounded-lg shadow-md flex items-center"><i class="fas fa-comments text-3xl text-purple-500 mr-4"></i><div><p class="text-gray-500">Total Komentar</p><p id="total-comments" class="text-2xl font-bold">0</p></div></div>
+                    </div>
+                </section>
+
+                <section id="pengumuman" class="content-section">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Pengumuman 📢</h1>
+                    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                        <h2 class="text-xl font-semibold mb-4" id="pengumuman-form-title">Tambah Pengumuman Baru</h2>
+                        <form id="pengumuman-form" class="space-y-4">
+                            <input type="hidden" id="pengumuman-id">
+                            <input type="text" id="pengumuman-judul" placeholder="Judul Pengumuman" class="w-full p-2 border rounded-md" required>
+                            <textarea id="pengumuman-isi" rows="4" placeholder="Isi pengumuman. Anda bisa menggunakan tag HTML seperti <ul> dan <li> untuk membuat list." class="w-full p-2 border rounded-md" required></textarea>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" id="pengumuman-linkUrl" placeholder="URL Tujuan (e.g., https://fenol.id)" class="w-full p-2 border rounded-md">
+                                <input type="text" id="pengumuman-linkTeks" placeholder="Teks untuk Link (e.g., Selengkapnya →)" class="w-full p-2 border rounded-md">
+                            </div>
+                             <div>
+                                <label for="pengumuman-status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <select id="pengumuman-status" class="w-full p-2 border rounded-md mt-1">
+                                    <option value="Aktif">Aktif (Tampilkan di website)</option>
+                                    <option value="Tidak Aktif">Tidak Aktif (Simpan sebagai draf)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700">Simpan Pengumuman</button>
+                            <button type="button" id="pengumuman-cancel" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 hidden">Batal</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-xl font-semibold mb-4">Daftar Pengumuman</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left min-w-[600px]">
+                                <thead>
+                                    <tr class="border-b">
+                                        <th class="p-2">Judul</th>
+                                        <th class="p-2">Status</th>
+                                        <th class="p-2">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pengumuman-list"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
 
@@ -203,6 +245,26 @@
 
         // --- PEMUAT DATA ---
         function loadAllData() {
+            handleCRUD('pengumuman', {
+                listContainer: 'pengumuman-list',
+                totalContainer: 'total-pengumuman',
+                render: (doc) => {
+                    const data = doc.data();
+                    const statusClass = data.status === 'Aktif' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-gray-100 text-gray-800';
+                    return `
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-2 font-medium">${data.judul}</td>
+                        <td class="p-2"><span class="px-2 py-1 text-xs font-semibold rounded-full ${statusClass}">${data.status}</span></td>
+                        <td class="p-2 space-x-2 whitespace-nowrap">
+                            <button onclick="editDoc('pengumuman', '${doc.id}')" class="text-blue-500 hover:underline">Edit</button>
+                            <button onclick="deleteDoc('pengumuman', '${doc.id}')" class="text-red-500 hover:underline">Hapus</button>
+                        </td>
+                    </tr>`
+                }
+            });
+
             handleCRUD('berita', {
                 listContainer: 'berita-list',
                 totalContainer: 'total-berita',
@@ -274,29 +336,31 @@
                 });
             });
 
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const id = document.getElementById(formConfig.idField).value;
-                const data = {};
-                formConfig.fields.forEach(field => {
-                    data[field] = document.getElementById(`${collectionName}-${field}`).value;
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const id = document.getElementById(formConfig.idField).value;
+                    const data = {};
+                    formConfig.fields.forEach(field => {
+                        data[field] = document.getElementById(`${collectionName}-${field}`).value;
+                    });
+
+                    if (id) {
+                        db.collection(collectionName).doc(id).update(data);
+                    } else {
+                        data.createdAt = timestamp;
+                        db.collection(collectionName).add(data);
+                    }
+                    resetForm(collectionName);
                 });
-
-                if (id) {
-                    db.collection(collectionName).doc(id).update(data);
-                } else {
-                    data.createdAt = timestamp;
-                    db.collection(collectionName).add(data);
-                }
-                resetForm(collectionName);
-            });
-
-            document.getElementById(formConfig.cancelBtn).addEventListener('click', () => resetForm(collectionName));
+                document.getElementById(formConfig.cancelBtn).addEventListener('click', () => resetForm(collectionName));
+            }
         }
 
         // --- FUNGSI-FUNGSI BANTUAN ---
         function getConfigForCollection(name) {
             const configs = {
+                pengumuman: { formId: 'pengumuman-form', idField: 'pengumuman-id', titleField: 'pengumuman-form-title', cancelBtn: 'pengumuman-cancel', fields: ['judul', 'isi', 'linkUrl', 'linkTeks', 'status'] },
                 berita: { formId: 'berita-form', idField: 'berita-id', titleField: 'berita-form-title', cancelBtn: 'berita-cancel', fields: ['judul', 'gambar', 'penulis', 'kategori', 'deskripsi', 'kontenLengkap'] },
                 agenda: { formId: 'agenda-form', idField: 'agenda-id', titleField: 'agenda-form-title', cancelBtn: 'agenda-cancel', fields: ['nama', 'tanggal', 'gambar', 'kategori', 'deskripsi'] },
                 dokumen: { formId: 'dokumen-form', idField: 'dokumen-id', titleField: 'dokumen-form-title', cancelBtn: 'dokumen-cancel', fields: ['nama', 'url', 'deskripsi'] }
@@ -306,7 +370,7 @@
         
         function resetForm(collectionName) {
             const config = getConfigForCollection(collectionName);
-            if (!config) return;
+            if (!config || !document.getElementById(config.formId)) return;
             document.getElementById(config.formId).reset();
             document.getElementById(config.idField).value = '';
             document.getElementById(config.titleField).textContent = `Tambah ${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)} Baru`;

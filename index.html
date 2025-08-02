@@ -15,11 +15,14 @@
         .card-hover:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
         .event-card { transition: all 0.3s ease; }
         .gradient-text { background: linear-gradient(90deg, #3b82f6, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .custom-heading { font-family: 'Georgia', serif; font-weight: 900; font-size: 2.25rem; letter-spacing: -0.02em; text-transform: uppercase; }
-        .gold-line { border-bottom: 3px solid #1826be; width: 14rem; margin-top: 0.25rem; margin-bottom: 2rem; }
-        .card-shadow { box-shadow: 0 8px 16px rgb(0 0 0 / 0.05); border-radius: 0.75rem; background-color: white; }
-        .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem; }
-        .card-desc { font-size: 0.75rem; color: #333; line-height: 1.3; margin-bottom: 1.2rem; font-family: 'Arial', sans-serif; }
+    /* TAMBAHKAN INI KE DALAM TAG <style> ANDA */
+
+#pengumuman-isi ul {
+  list-style-type: disc; /* Memberi simbol titik pada list */
+  padding-left: 1.25rem;  /* Memberi jarak ke dalam untuk list */
+  margin-top: 0.25rem;   /* Memberi sedikit jarak dari judul */
+}
+    
     </style>
 </head>
 <body class="bg-gray-50">
@@ -28,12 +31,81 @@
     </header>
 
     <section id="home" class="hero text-white pt-24 pb-20"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="md:flex items-center"><div class="md:w-1/2 mb-10 md:mb-0"><h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Himpunan Mahasiswa <span class="gradient-text">Kimia</span></h1><p class="text-xl mb-8 opacity-90">Mewadahi, Menginspirasi, dan Meningkatkan Potensi Mahasiswa Kimia menuju Generasi Unggul dan Berkarakter</p><div class="flex space-x-4"><a href="#tentang" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 transform hover:scale-105">Tentang Kami</a><a href="#agenda" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-medium transition duration-300 hover:bg-white hover:text-blue-600">Agenda Terbaru</a></div></div><div class="md:w-1/2 flex justify-center"><img src="image/Logo Himamia.png" alt="Logo" class="rounded-xl shadow-2xl border-4 border-white w-64 h-64 object-contain"></div></div></div></section>
+    
+   <section class="bg-gray-100 py-8" id="pengumuman-section" style="display: none;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center">
+                <div class="bg-blue-100 p-3 rounded-full mr-4 flex-shrink-0">
+                    <i class="fas fa-bullhorn text-blue-600 text-xl"></i>
+                </div>
+                <div>
+                    <p id="pengumuman-judul" class="font-semibold text-gray-900"></p>
+                    <div id="pengumuman-isi" class="text-sm text-gray-700"></div>
+                </div>
+            </div>
+            <a id="pengumuman-link" href="#" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap self-end sm:self-center"></a>
+        </div>
+    </div>
+</section>  
 
     <section id="tentang" class="py-16 bg-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center mb-16"><h2 class="text-3xl font-bold text-gray-900 mb-4">Selayang Pandang Himamia FMIPA UNNES</h2><div class="w-20 h-1 bg-blue-600 mx-auto"></div></div><div class="grid md:grid-cols-2 gap-12 items-center mb-16"><div><h3 class="text-2xl font-semibold text-gray-800 mb-4">Sejarah Singkat</h3><p class="text-gray-700 mb-4">Himamia FMIPA UNNES adalah lembaga eksekutif mahasiswa tingkat rumpun ilmu di lingkungan FMIPA UNNES yang memiliki visi untuk mewujudkan Himamia FMIPA UNNES yang memiliki peran aktif sebagai agent of change serta sebagai wadah internalisasi bagi Mahasiswa Rumpun Ilmu Kimia dengan berorientasi pada Himamia yang kolaboratif, inovatif, dan adaptif.</p></div><div><img src="image/sejarahsingkatfoto.JPG" alt="Foto dokumentasi sejarah" class="rounded-xl shadow-lg w-full"></div></div></div></section>
 
+
+<div class="bg-slate-50 flex items-center justify-center min-h-screen p-4 md:p-8">
+
+ <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl">
+
+        <div class="bg-white rounded-2xl shadow-lg p-8 text-center flex flex-col items-center border border-gray-100">
+            <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-6">
+                <i class="bi bi-bullseye text-4xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Visi</h3>
+            <p class="text-gray-600 leading-relaxed">
+                Mewujudkan Himamia yang memiliki peran aktif sebagai agent of change serta sebagai wadah internalisasi bagi mahasiswa Kimia dengan berorientasi pada Himamia yang kolaboratif, inovatif, dan adaptif.
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-8 text-center flex flex-col items-center border border-gray-100">
+            <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-6">
+                <i class="bi bi-journal-check text-4xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Misi</h3>
+            <ul class="text-gray-600 leading-relaxed text-left space-y-2">
+                <li class="flex items-start">
+                    <span class="text-blue-600 font-bold mr-3 mt-1">•</span>
+                    Mendorong keaktifan organisasi dan kerja sama antar anggota.
+                </li>
+                <li class="flex items-start">
+                    <span class="text-blue-600 font-bold mr-3 mt-1">•</span>
+                    Meningkatkan kreativitas dan prestasi akademik anggota.
+                </li>
+                <li class="flex items-start">
+                    <span class="text-blue-600 font-bold mr-3 mt-1">•</span>
+                    Meningkatkan peran Himamia sebagai organisasi dalam mewujudkan organisator yang berintegritas.
+                </li>
+                 <li class="flex items-start">
+                    <span class="text-blue-600 font-bold mr-3 mt-1">•</span>
+                    Menciptakan hubungan harmonis dengan pihak internal dan eksternal Himamia.
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-8 text-center flex flex-col items-center border border-gray-100">
+            <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-6">
+                <i class="bi bi-gem text-4xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Nilai-Nilai</h3>
+            <p class="text-gray-600 leading-relaxed">
+                Integritas, Kolaborasi, Inovasi, Kepedulian, dan Keunggulan menjadi fondasi dalam setiap kegiatan kami.
+            </p>
+        </div>
+ </div>
+    </div>
+
     <section id="agenda" class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16"><h2 class="text-3xl font-bold text-gray-900 mb-4">Agenda & Kegiatan</h2><div class="w-20 h-1 bg-blue-600 mx-auto"></div></div>
+            <div class="text-center mb-16"><h2 class="text-3xl font-bold text-gray-900 mb-4">Kegiatan Mendatang</h2><div class="w-20 h-1 bg-blue-600 mx-auto"></div></div>
             <div id="agenda-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <p class="text-center col-span-full">Memuat agenda...</p>
             </div>
@@ -58,7 +130,9 @@
         </div>
     </section>
 
-    <section id="feedback" class="py-16 bg-white"><div class="max-w-3xl mx-auto px-4"><div class="text-center mb-8"><h2 class="text-3xl font-bold text-gray-900">Feedback Website</h2><p class="text-gray-600 mt-2">Beri kami masukan untuk pengembangan website yang lebih baik.</p></div><div class="bg-white p-8 rounded-lg shadow-lg"><input type="text" id="name" placeholder="Nama Anda..." class="w-full p-3 border rounded mb-4"><textarea id="comment" rows="4" placeholder="Tulis komentar Anda..." class="w-full p-3 border rounded mb-4"></textarea><button onclick="submitComment()" class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700">Kirim Komentar</button><div id="commentList" class="mt-8 space-y-4"></div></div></div></section>
+    
+
+    <section id="feedback" class="py-16 bg-white"><div class="max-w-3xl mx-auto px-4"><div class="text-center mb-8"><h2 class="text-3xl font-bold text-gray-900">Feedback Himamia</h2><p class="text-gray-600 mt-2">Beri kami masukan untuk pengembangan program kerja dan organisasi yang lebih baik.</p></div><div class="bg-white p-8 rounded-lg shadow-lg"><input type="text" id="name" placeholder="Nama Anda..." class="w-full p-3 border rounded mb-4"><textarea id="comment" rows="4" placeholder="Tulis komentar Anda..." class="w-full p-3 border rounded mb-4"></textarea><button onclick="submitComment()" class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700">Kirim Komentar</button><div id="commentList" class="mt-8 space-y-4"></div></div></div></section>
 
     <script>
         // --- Firebase Configuration ---
@@ -73,14 +147,48 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // --- Dynamic Content Loaders ---
+        // --- Event Listener Utama ---
+        // Semua fungsi pemuatan data dipanggil dari sini agar terstruktur.
         document.addEventListener('DOMContentLoaded', () => {
+            loadPengumuman(); // << FUNGSI PENGUMUMAN DIPANGGIL DI SINI
             loadAgenda();
             loadBerita();
             loadUnduhan();
             loadComments();
             setupNav();
         });
+
+        // --- Fungsi-Fungsi Pemuatan Data ---
+
+        function loadPengumuman() {
+            const pengumumanSection = document.getElementById('pengumuman-section');
+            const judulEl = document.getElementById('pengumuman-judul');
+            const isiEl = document.getElementById('pengumuman-isi');
+            const linkEl = document.getElementById('pengumuman-link');
+
+            db.collection('pengumuman')
+              .where('status', '==', 'Aktif')
+              .orderBy('createdAt', 'desc')
+              .limit(1)
+              .get()
+              .then(snapshot => {
+                if (snapshot.empty) {
+                    console.log("Tidak ada pengumuman aktif.");
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    judulEl.textContent = data.judul;
+                    isiEl.innerHTML = data.isi;
+                    linkEl.href = data.linkUrl || '#';
+                    linkEl.textContent = data.linkTeks || 'Selengkapnya →';
+                    pengumumanSection.style.display = 'block'; // Tampilkan section
+                });
+              })
+              .catch(error => {
+                console.error("Gagal mengambil data pengumuman: ", error);
+              });
+        }
 
         function loadAgenda() {
             const container = document.getElementById('agenda-container');
@@ -107,27 +215,26 @@
             });
         }
 
-     function loadBerita() {
-    const container = document.getElementById('berita-container');
-    db.collection('berita').orderBy('createdAt', 'desc').limit(3).get().then(snapshot => {
-        if(snapshot.empty) { container.innerHTML = '<p class="text-center col-span-full">Belum ada berita.</p>'; return; }
-        container.innerHTML = '';
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            const id = doc.id;
-            // BARU: Setiap kartu sekarang adalah link <a>
-            container.innerHTML += `
-                <a href="berita-detail.html?id=${id}" class="block bg-white rounded-xl shadow-md overflow-hidden card-hover">
-                    <img src="${data.gambar}" alt="${data.judul}" class="h-48 w-full object-cover">
-                    <div class="p-6">
-                        <div class="uppercase tracking-wide text-sm text-blue-600 font-semibold mb-1">Berita</div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 h-14 overflow-hidden">${data.judul}</h3>
-<p class="mt-2 text-gray-600 text-sm h-24 overflow-hidden">${data.deskripsi || ''}</p>
-                        </div>
-                </a>`;
-        });
-    });
-}
+       function loadBerita() {
+            const container = document.getElementById('berita-container');
+            db.collection('berita').orderBy('createdAt', 'desc').limit(3).get().then(snapshot => {
+                if(snapshot.empty) { container.innerHTML = '<p class="text-center col-span-full">Belum ada berita.</p>'; return; }
+                container.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    container.innerHTML += `
+                        <a href="berita-detail.html?id=${id}" class="block bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                            <img src="${data.gambar}" alt="${data.judul}" class="h-48 w-full object-cover">
+                            <div class="p-6">
+                                <div class="uppercase tracking-wide text-sm text-blue-600 font-semibold mb-1">Berita</div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-2 h-14 overflow-hidden">${data.judul}</h3>
+                                <p class="mt-2 text-gray-600 text-sm h-24 overflow-hidden">${data.deskripsi || ''}</p>
+                            </div>
+                        </a>`;
+                });
+            });
+        }
         
         function loadUnduhan() {
             const container = document.getElementById('unduhan-container');
@@ -153,7 +260,7 @@
             });
         }
         
-        // --- Comments and Nav Logic (from original file) ---
+        // --- Comments and Nav Logic ---
         function submitComment(){const name=document.getElementById('name').value.trim();const comment=document.getElementById('comment').value.trim();if(!name||!comment){alert('Nama dan komentar wajib diisi!');return}db.collection('comments').add({name:name,comment:comment,timestamp:new Date()}).then(()=>{document.getElementById('name').value='';document.getElementById('comment').value='';loadComments()})}
         function loadComments(){db.collection('comments').orderBy('timestamp','desc').limit(5).get().then(snapshot=>{const list=document.getElementById('commentList');list.innerHTML='';if(snapshot.empty){list.innerHTML='<div class="text-center text-gray-500">Belum ada komentar.</div>'}else{snapshot.forEach(doc=>{const data=doc.data();list.innerHTML+=`<div class="border-t pt-4"><p><strong>${data.name}</strong></p><p class="text-gray-700">${data.comment}</p></div>`})}})}
         function setupNav(){const links=document.querySelectorAll(".nav-link");const mobileBtn=document.getElementById("mobile-menu-button");const mobileMenu=document.getElementById("mobile-menu");const iconOpen=document.getElementById("icon-open");const iconClose=document.getElementById("icon-close");links.forEach(link=>{link.addEventListener("click",()=>{links.forEach(l=>{l.classList.remove("text-blue-600","font-semibold");l.classList.add("text-gray-700")});link.classList.add("text-blue-600","font-semibold");link.classList.remove("text-gray-700");if(window.innerWidth<768){mobileMenu.classList.add("hidden");iconOpen.classList.remove("hidden");iconClose.classList.add("hidden")}})});mobileBtn.addEventListener("click",()=>{mobileMenu.classList.toggle("hidden");iconOpen.classList.toggle("hidden");iconClose.classList.toggle("hidden")})}

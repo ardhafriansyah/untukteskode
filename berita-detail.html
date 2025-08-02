@@ -59,7 +59,7 @@
         <a href="index.html" class="back-button">Kembali ke Beranda</a>
     </div>
 
-    <script>
+   <script>
     // --- Firebase Configuration ---
     const firebaseConfig = {
         apiKey: "AIzaSyD7HgJq8XIusYjM-p6ly-WwkAE4jQJ6CxI",
@@ -88,34 +88,25 @@
             if (doc.exists) {
                 const data = doc.data();
                 
-                // Set Judul Dokumen
                 document.title = data.judul + " - HIMAMIA";
-
-                // Populate Header
                 document.getElementById('news-title').textContent = data.judul;
                 
-                // Populate Tanggal
                 if (data.createdAt) {
                     const date = data.createdAt.toDate();
                     document.getElementById('news-day').textContent = date.getDate();
                     document.getElementById('news-month').textContent = date.toLocaleString('id-ID', { month: 'short' });
                 }
 
-                // Populate Breadcrumb
                 document.getElementById('breadcrumb-title').textContent = data.judul;
 
-                // Populate Gambar
                 const imgElement = document.getElementById('news-image');
                 imgElement.src = data.gambar;
                 imgElement.alt = data.judul;
 
-                // Populate Penulis dan Kategori dengan FALLBACK
-                // Tanda "||" berarti "jika data.penulis tidak ada, gunakan 'Admin'"
+                // <-- PERIKSA BAGIAN INI -->
                 document.getElementById('news-author').textContent = data.penulis || 'Admin';
                 document.getElementById('header-category').textContent = data.kategori || 'Umum';
                 document.getElementById('breadcrumb-category').textContent = data.kategori || 'Umum';
-
-                // Populate Konten Artikel
                 document.getElementById('news-content').innerHTML = data.kontenLengkap || '<p>Konten tidak tersedia.</p>';
 
             } else {
